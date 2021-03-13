@@ -59,12 +59,20 @@ def getAuthors(article_html): #function to find the authors of a given article
 
     return authors_list
 
+def getTitle(article_html):
+    title_tag = article_html.find('h1', class_= "single__article-title")
+    title = title_tag.getText()
+
+    return title
+
+
 def test_function(URL): #tests parsing on a single article
     test_request = requests.get(URL)
     article_html = BeautifulSoup(test_request.content, 'html.parser')
     article_data = Article() #creates an Article object to store information about the article
 
     article_data.authors = getAuthors(article_html)
+    article_data.title = getTitle(article_html)
 
     print(article_data)
 
