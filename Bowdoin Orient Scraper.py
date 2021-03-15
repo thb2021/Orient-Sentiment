@@ -65,6 +65,42 @@ def getTitle(article_html):
 
     return title
 
+def getDate(article_html):
+    date_tag = article_html.find('p', class_="single__pubdate") #finds date tag
+    printed_date = date_tag.getText() #grabs the printed date
+
+    no_comma = printed_date.replace(",", "") #eliminates comma after month
+    split_date = no_comma.split() #splits the printed date into components
+
+    month_str = split_date[0] #the word for a month e.g. "March"
+    month = month_to_int(month_str) #converts month_str into number e.g. "March" -> 3
+    day = split_date[1] #the day of the month
+    year = split_date[2] #the publication year
+
+    date_array = [year, month, day] #formats date in an array
+
+    return date_array
+
+def month_to_int(month_word):
+
+        month_dict = { #dictionary to map month string to its number
+            "January": 1,
+            "February": 2,
+            "March": 3,
+            "April": 4,
+            "May": 5,
+            "June": 6,
+            "July": 7,
+            "August": 8,
+            "September": 9,
+            "October": 10,
+            "November": 11,
+            "December": 12
+        }
+
+        month_int = month_dict[month_word]
+
+        return month_int
 
 def test_function(URL): #tests parsing on a single article
     test_request = requests.get(URL)
@@ -73,7 +109,7 @@ def test_function(URL): #tests parsing on a single article
 
     article_data.authors = getAuthors(article_html)
     article_data.title = getTitle(article_html)
-
+    article_data.publication_date = getDate(article_html)
     print(article_data)
 
 
