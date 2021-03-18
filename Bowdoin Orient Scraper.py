@@ -21,6 +21,8 @@ class Article:
 
         authors = article.authors
 
+        text = str()
+
         return (title + "\n"
                 + "Published: {year}-{month}-{day}".format(year = p_year,
                 month = p_month, day = p_day) + '\n'
@@ -102,6 +104,16 @@ def month_to_int(month_word):
 
         return month_int
 
+def getArticleText(article_html):
+    text_div = article_html.find('div', class_ = "single__content")
+    print(text_div)
+    paragraphs = text_div.find_all('p')
+    article_text = str()
+    for paragraph in paragraphs:
+        paragraph_text = paragraph.getText()
+        article_text = article_text + paragraph_text + "\n"
+
+    return article_text
 def test_function(URL): #tests parsing on a single article
     test_request = requests.get(URL)
     article_html = BeautifulSoup(test_request.content, 'html.parser')
@@ -110,7 +122,9 @@ def test_function(URL): #tests parsing on a single article
     article_data.authors = getAuthors(article_html)
     article_data.title = getTitle(article_html)
     article_data.publication_date = getDate(article_html)
+    article_data.text = getArticleText(article_html)
     print(article_data)
+    print(article_data.text)
 
 
 test_function("https://bowdoinorient.com/2021/03/05/students-disappointed-confused-about-cancellation-of-off-campus-testing-program/")
