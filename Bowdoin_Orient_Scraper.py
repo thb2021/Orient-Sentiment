@@ -125,6 +125,3 @@ def test_function(URL): #tests parsing on a single article
     article_data.text = getArticleText(article_html)
     print(article_data)
     print(article_data.text)
-
-
-test_function("https://bowdoinorient.com/2021/03/05/students-disappointed-confused-about-cancellation-of-off-campus-testing-program/")
